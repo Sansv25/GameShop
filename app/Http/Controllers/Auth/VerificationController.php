@@ -29,19 +29,22 @@ class VerificationController extends Controller
         return back()->with('status', 'verification-link-sent');
     }
 
-    public function verify(EmailVerificationRequest $request): RedirectResponse
+    public function verify(Request $request, $id, $hash): RedirectResponse
     {
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('home', absolute: false) . '?verified=1');
+        $user = \App\Models\User::findOrFail($id);
+
+        if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+            abort(403);
         }
 
-        if ($request->user()->markEmailAsVerified()) {
-            /** @var \Illuminate\Contracts\Auth\MustVerifyEmail $user */
-            $user = $request->user();
+        if ($user->hasVerifiedEmail()) {
+            return redirect()->route('login')->with('success', 'Email sudah terverifikasi. Silakan login.');
+        }
 
+        if ($user->markEmailAsVerified()) {
             event(new Verified($user));
         }
 
-        return redirect()->intended(route('home', absolute: false) . '?verified=1');
+        return redirect()->route('login')->with('success', 'Email berhasil diverifikasi! Silakan login sekarang.');
     }
 }

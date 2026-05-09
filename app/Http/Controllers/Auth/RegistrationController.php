@@ -31,8 +31,17 @@ class RegistrationController extends Controller
 
         event(new Registered(($user = User::create($validated))));
 
-        Auth::login($user);
+        return redirect()->route('register.success')->with('email', $validated['email']);
+    }
 
-        return redirect('/');
+    public function success(Request $request): View|RedirectResponse
+    {
+        if (!$request->session()->has('email')) {
+            return redirect()->route('login');
+        }
+
+        return view('auth.register-success', [
+            'email' => $request->session()->get('email')
+        ]);
     }
 }
