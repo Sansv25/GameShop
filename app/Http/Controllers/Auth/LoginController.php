@@ -39,11 +39,7 @@ class LoginController extends Controller
         RateLimiter::clear($this->throttleKey($request));
 
         if (! Auth::user()->hasVerifiedEmail()) {
-            Auth::logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-            
-            return redirect()->route('login')->with('error', 'Anda harus memverifikasi email Anda terlebih dahulu. Silakan cek kotak masuk email Anda.');
+            return redirect()->route('verification.notice');
         }
 
         $request->session()->regenerate();
