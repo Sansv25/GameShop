@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>GameShop | Premium AI-Powered Game Accounts</title>
+    <link rel="icon" type="image/png" href="{{ asset('asset/logo-square.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
@@ -331,10 +332,17 @@
                         <p class="text-white/50 text-lg leading-relaxed">Jangan khawatir! Asisten AI cerdas kami siap membantu Anda 24/7. Tanyakan rekomendasi, panduan keamanan, atau negosiasi harga secara langsung.</p>
                         <div class="pt-4 flex flex-wrap gap-4">
                             @auth
-                                <a href="{{ route('chat.show', \App\Models\User::where('role','admin')->first()->id ?? 1) }}" class="btn-primary px-8 py-4 rounded-xl text-sm font-bold flex items-center gap-3">
-                                    Mulai Chat dengan AI
-                                    <i class="far fa-arrow-right"></i>
-                                </a>
+                                @if(auth()->user()->role === 'admin')
+                                    <a href="{{ route('admin.chat.index') }}" class="btn-primary px-8 py-4 rounded-xl text-sm font-bold flex items-center gap-3">
+                                        Lihat Pesan Masuk
+                                        <i class="far fa-arrow-right"></i>
+                                    </a>
+                                @else
+                                    <a href="{{ route('chat.show', \App\Models\User::where('role','admin')->value('id') ?? 1) }}" class="btn-primary px-8 py-4 rounded-xl text-sm font-bold flex items-center gap-3">
+                                        Mulai Chat dengan AI
+                                        <i class="far fa-arrow-right"></i>
+                                    </a>
+                                @endif
                             @else
                                 <a href="{{ route('login') }}" class="btn-primary px-8 py-4 rounded-xl text-sm font-bold flex items-center gap-3">
                                     Login untuk Chat AI

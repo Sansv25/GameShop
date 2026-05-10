@@ -22,7 +22,10 @@
 <body>
     <div class="wrapper">
         <div class="container">
-            <a href="{{ config('app.url') }}" class="logo">GAME<span>SHOP</span></a>
+            <div style="text-align: center; margin-bottom: 30px;">
+                <img src="{{ config('app.url') }}/asset/logo-square.png" alt="GameShop Logo" style="width: 80px; height: 80px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">
+                <div><a href="{{ config('app.url') }}" class="logo" style="margin-bottom: 0;">GAME<span>SHOP</span></a></div>
+            </div>
             
             <div class="title">Verifikasi Alamat Email Anda</div>
             

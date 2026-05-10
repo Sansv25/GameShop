@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <title>Chat - {{ config('app.name', 'GameShop') }}</title>
+    <link rel="icon" type="image/png" href="{{ asset('asset/logo-square.png') }}">
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @else
